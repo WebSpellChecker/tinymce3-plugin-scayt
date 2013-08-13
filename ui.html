@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>{#scayt.title}</title>
+        <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+        <script type="text/javascript" src="../../utils/mctabs.js"></script>
+        <script type="text/javascript" src="js/ui.js"></script>
+
+        <style>
+            .page-wrapper{
+                height:200px;
+                overflow:hidden;
+                width:385px;
+            }
+            .lcol {
+                float:left;
+                width:47%;
+                margin-left:5px;
+            }
+            .rcol {
+                float:right;
+                width:47%;
+                margin-right:5px;
+            }
+            .PopupTab, .PopupTabSelected {
+                cursor: pointer;
+            }
+            .tabs li.PopupTab{
+                display:none;
+            }
+            .DarkBackground  {
+                background-color: #fff;	
+            }
+            .buttons-layer{
+                position:absolute;
+                bottom: 2px;
+                left: 50px;
+                width: 200px;
+                
+            }
+            .tab_container{
+                display:none;
+                padding-left:15px;
+            }
+            .dic_buttons input.button{
+                display:none;
+                background-repeat:no-repeat;
+                font-size:10px;
+                text-align:center;
+                padding-bottom:5px;
+            }
+            #dic_message .success{
+                color: blue;
+                padding-left: 10px;
+            }
+            #dic_message .error{
+                color: red;
+                padding-left: 10px;
+            }
+            #dic_name
+            {
+                font-size:12px;
+                height:15px;
+                padding-bottom:2px;
+                padding-left:2px;
+                padding-right:2px;
+                padding-top:2px;
+                width:182px;
+            }
+            .dic_buttons
+            {
+                padding-left:112px;
+            }
+            #dic_info
+            {
+                 padding:10px;
+            }
+			
+			.dic_buttons input{
+				background: url("img/buttons.png") repeat scroll 0 -52px transparent !important;
+				width: 114px;
+			}
+			.panel_wrapper div.current{
+				height: 200px;
+			}
+			
+			#close{
+				background: url("img/buttons.png") repeat scroll 0 0 transparent;
+				float: right;
+				display: none;
+				border: 0 none;
+				cursor: pointer;
+				font-weight: bold;
+				height: 26px;
+				margin: 0;
+				padding: 0 0 2px;
+				width: 114px;
+			}
+			
+			li{
+				list-style-type: none; 
+			}
+			
+			input[type=checkbox]{
+				border: none;
+			}
+        </style>
+	
+	</head>
+	<body style="display:none;" role="application" aria-labelledby="app_title">
+		<span id="app_title" style="display:none">{#scayt.title}</span>
+		<form id = "optionForm" onsubmit="/*;return false;*/" action="#">
+
+		<div class="tabs">
+			<ul>
+				<li id="options_tab" aria-controls="options_panel"><span><a href="javascript:SCAYTOptionsDialog.switchMode('0');" onmousedown="return false;">{#scayt.tab_options}</a></span></li>
+				<li id="langs_tab" aria-controls="langs_panel"><span><a href="javascript:SCAYTOptionsDialog.switchMode('1'); " onmousedown="return false;">{#scayt.tab_languages}</a></span></li>
+				<li id="dictionary_tab" aria-controls="dictionary_panel"><span><a href="javascript:SCAYTOptionsDialog.switchMode('2');" onmousedown="return false;">{#scayt.tab_dictionaries}</a></span></li>
+				<li id="about_tab" aria-controls="about_panel"><span><a href="javascript:SCAYTOptionsDialog.switchMode('3');" onmousedown="return false;">{#scayt.tab_about}</a></span></li>
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="options_panel" class="panel">
+	            <ul id="scayt_options">
+	               <li class="_scayt_options" style = "display: block;">
+	                   <input class="_scayt_option" type="checkbox" value="0" name="allCaps" />
+	                   <label for="allCaps" id="label_allCaps">{#scayt.label_allCaps}</label>
+	               </li>
+	               <li style = "display: block;">
+	                   <input class="_scayt_option" type="checkbox" value="0" name="ignoreDomainNames" />
+	                   <label for="ignoreDomainNames" id="label_ignoreDomainNames">{#scayt.label_ignoreDomainNames}</label>
+	               </li>
+	               <li style = "display: block;">
+	                   <input class="_scayt_option" type="checkbox" value="0" name="mixedCase" />
+	                   <label for="mixedCase" id="label_mixedCase">{#scayt.label_mixedCase}</label>
+	               </li>
+	               <li style = "display: block;">
+	                   <input class="_scayt_option" type="checkbox" value="0" name="mixedWithDigits" />
+	                   <label for="mixedWithDigits" id="label_mixedWithDigits">{#scayt.label_mixedWithDigits}</label>
+	               </li>
+	           </ul> 
+			</div>
+			<div id="langs_panel" class="panel">
+	            <div class="lcol" id="lcolid">
+	                
+	            </div>
+	            <div class="rcol" id="rcolid">
+	                
+	            </div>
+			</div>
+			<div id="dictionary_panel" class="panel">
+	            <div id="dic_message"></div>
+	            <div id="dic_tab" class="dictionary" > 
+	                <div style="padding-left:10px;">
+	                    <label id="dname" for="dname">{#scayt.dic_dictionary_name}</label>
+	                    <input type="text" size="14" maxlength="15" value="" id="dic_name" name="dic_name"/>
+	                </div>
+	                <div class="dic_buttons">
+	                    <input id="dic_create" class="button" type="submit" value = "{#scayt.dic_create}" title = "{#scayt.dic_create}"/>
+	                    <input id="dic_delete" class="button" type="submit" value = "{#scayt.dic_remove}" title = "{#scayt.dic_remove}"/>
+	                    <input id="dic_rename" class="button" type="submit" value = "{#scayt.dic_rename}" title = "{#scayt.dic_rename}"/>
+	                    <input id="dic_restore" class="button" type="submit" value = "{#scayt.dic_restore}" title = "{#scayt.dic_restore}"/> 
+	                </div>
+	                
+	                <div id="dic_info">{#scayt.dic_about_info}</div>
+	               
+	            </div>
+			</div>
+			<div id="about_panel" class="panel">
+				<div id="scayt_about">
+					<p><img id = "about_logo" title = "Logo" alt = "Logo" src="" /></p>
+					<p>  {#scayt.about_version}  <span id = "about_version_block">{#scayt.about_version_num}<span>
+					<br> {#scayt.about_throwt_copy} </p>					
+				</div>
+			</div>
+		</div>
+
+<!-- 
+        <div class="_page-wrapper" >
+        	<ul class="tabs">
+                <li id="options" class="PopupTab TabfixedClass"></li>
+                <li id="langs" class="PopupTab TabfixedClass"></li>
+                <li id="dictionary" class="PopupTab TabfixedClass"></li>
+                <li id="about" class="PopupTab TabfixedClass"></li>
+            </ul>
+            <div class="tabs-container">
+                <div class="tab_container" id="inner_options">
+                        <ul id="scayt_options">
+                           <li class="_scayt_options">
+                               <input class="_scayt_option" type="checkbox" value="0" name="allCaps" />
+                               <label for="allCaps" id="label_allCaps"></label>
+                           </li>
+                           <li>
+                               <input class="_scayt_option" type="checkbox" value="0" name="ignoreDomainNames" />
+                               <label for="ignoreDomainNames" id="label_ignoreDomainNames"></label>
+                           </li>
+                           <li>
+                               <input class="_scayt_option" type="checkbox" value="0" name="mixedCase" />
+                               <label for="mixedCase" id="label_mixedCase"></label>
+                           </li>
+                           <li>
+                               <input class="_scayt_option" type="checkbox" value="0" name="mixedWithDigits" />
+                               <label for="mixedWithDigits" id="label_mixedWithDigits"></label>
+                           </li>
+                       </ul> 
+                   </div>
+                
+                <div class="tab_container" id="inner_dictionary">
+                    
+                    <div id="dic_message"></div>
+                    <div id="dic_tab" class="dictionary" > 
+                        <div style="padding-left:10px;">
+                            <label id="dname" for="dname"></label>
+                            <input type="text" size="14" maxlength="15" value="" id="dic_name" name="dic_name"/>
+                        </div>
+                        <div class="dic_buttons">
+                            <input id="dic_create" class="button" type="submit"/>
+                            <input id="dic_delete" class="button" type="submit"/>
+                            <input id="dic_rename" class="button" type="submit"/>
+                            <input id="dic_restore" class="button" type="submit"/> 
+                        </div>
+                        
+                        <div id="dic_info"></div>
+                    </div>
+                    
+                   
+                </div>
+                <div class="tab_container" id="inner_langs" style="display:none;">
+                   <div class="lcol" id="lcolid">
+                       
+                   </div>
+                   <div class="rcol" id="rcolid">
+                       
+                   </div>
+                   
+                </div>
+                <div class="tab_container" id="inner_about" style="display:none;">
+                    <div id="scayt_about"></div>
+                </div>
+            </div>
+            
+            <div class="buttons-layer">
+                <button id="insert" onclick="Ok();">Ok</button>
+                <button id="cancel" onclick="Cancel();">Cancel</button>
+            </div>
+           
+		</div>
+ -->
+		<div class="mceActionPanel">
+			<input type="submit" id="insert" name="insert" value="{#update}" onclick="SCAYTOptionsDialog.applySettings();"/>
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			<input type="button" id="close" name="cancel" value="{#close}" onclick="tinyMCEPopup.close();" />
+		</div>
+	</form>
+    </body>
+</html>
