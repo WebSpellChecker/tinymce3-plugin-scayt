@@ -5,6 +5,7 @@
         <title>{#scayt.title}</title>
         <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
         <script type="text/javascript" src="../../utils/mctabs.js"></script>
+        <script type="text/javascript" src="js/helper.js"></script>
         <script type="text/javascript" src="js/ui.js"></script>
 
         <style>
@@ -27,7 +28,7 @@
                 cursor: pointer;
             }
             .tabs li.PopupTab{
-                display:none;
+                display:none; 
             }
             .DarkBackground  {
                 background-color: #fff;	
@@ -106,7 +107,6 @@
 				border: none;
 			}
         </style>
-	
 	</head>
 	<body style="display:none;" role="application" aria-labelledby="app_title">
 		<span id="app_title" style="display:none">{#scayt.title}</span>
@@ -124,22 +124,7 @@
 		<div class="panel_wrapper">
 			<div id="options_panel" class="panel">
 	            <ul id="scayt_options">
-	               <li class="_scayt_options" style = "display: block;">
-	                   <input class="_scayt_option" type="checkbox" value="0" name="allCaps" />
-	                   <label for="allCaps" id="label_allCaps">{#scayt.label_allCaps}</label>
-	               </li>
-	               <li style = "display: block;">
-	                   <input class="_scayt_option" type="checkbox" value="0" name="ignoreDomainNames" />
-	                   <label for="ignoreDomainNames" id="label_ignoreDomainNames">{#scayt.label_ignoreDomainNames}</label>
-	               </li>
-	               <li style = "display: block;">
-	                   <input class="_scayt_option" type="checkbox" value="0" name="mixedCase" />
-	                   <label for="mixedCase" id="label_mixedCase">{#scayt.label_mixedCase}</label>
-	               </li>
-	               <li style = "display: block;">
-	                   <input class="_scayt_option" type="checkbox" value="0" name="mixedWithDigits" />
-	                   <label for="mixedWithDigits" id="label_mixedWithDigits">{#scayt.label_mixedWithDigits}</label>
-	               </li>
+
 	           </ul> 
 			</div>
 			<div id="langs_panel" class="panel">
@@ -163,7 +148,7 @@
 	                    <input id="dic_rename" class="button" type="submit" value = "{#scayt.dic_rename}" title = "{#scayt.dic_rename}"/>
 	                    <input id="dic_restore" class="button" type="submit" value = "{#scayt.dic_restore}" title = "{#scayt.dic_restore}"/> 
 	                </div>
-	                
+	                <div style = "clear:both"></div>
 	                <div id="dic_info">{#scayt.dic_about_info}</div>
 	               
 	            </div>
@@ -177,77 +162,6 @@
 			</div>
 		</div>
 
-<!-- 
-        <div class="_page-wrapper" >
-        	<ul class="tabs">
-                <li id="options" class="PopupTab TabfixedClass"></li>
-                <li id="langs" class="PopupTab TabfixedClass"></li>
-                <li id="dictionary" class="PopupTab TabfixedClass"></li>
-                <li id="about" class="PopupTab TabfixedClass"></li>
-            </ul>
-            <div class="tabs-container">
-                <div class="tab_container" id="inner_options">
-                        <ul id="scayt_options">
-                           <li class="_scayt_options">
-                               <input class="_scayt_option" type="checkbox" value="0" name="allCaps" />
-                               <label for="allCaps" id="label_allCaps"></label>
-                           </li>
-                           <li>
-                               <input class="_scayt_option" type="checkbox" value="0" name="ignoreDomainNames" />
-                               <label for="ignoreDomainNames" id="label_ignoreDomainNames"></label>
-                           </li>
-                           <li>
-                               <input class="_scayt_option" type="checkbox" value="0" name="mixedCase" />
-                               <label for="mixedCase" id="label_mixedCase"></label>
-                           </li>
-                           <li>
-                               <input class="_scayt_option" type="checkbox" value="0" name="mixedWithDigits" />
-                               <label for="mixedWithDigits" id="label_mixedWithDigits"></label>
-                           </li>
-                       </ul> 
-                   </div>
-                
-                <div class="tab_container" id="inner_dictionary">
-                    
-                    <div id="dic_message"></div>
-                    <div id="dic_tab" class="dictionary" > 
-                        <div style="padding-left:10px;">
-                            <label id="dname" for="dname"></label>
-                            <input type="text" size="14" maxlength="15" value="" id="dic_name" name="dic_name"/>
-                        </div>
-                        <div class="dic_buttons">
-                            <input id="dic_create" class="button" type="submit"/>
-                            <input id="dic_delete" class="button" type="submit"/>
-                            <input id="dic_rename" class="button" type="submit"/>
-                            <input id="dic_restore" class="button" type="submit"/> 
-                        </div>
-                        
-                        <div id="dic_info"></div>
-                    </div>
-                    
-                   
-                </div>
-                <div class="tab_container" id="inner_langs" style="display:none;">
-                   <div class="lcol" id="lcolid">
-                       
-                   </div>
-                   <div class="rcol" id="rcolid">
-                       
-                   </div>
-                   
-                </div>
-                <div class="tab_container" id="inner_about" style="display:none;">
-                    <div id="scayt_about"></div>
-                </div>
-            </div>
-            
-            <div class="buttons-layer">
-                <button id="insert" onclick="Ok();">Ok</button>
-                <button id="cancel" onclick="Cancel();">Cancel</button>
-            </div>
-           
-		</div>
- -->
 		<div class="mceActionPanel">
 			<input type="submit" id="insert" name="insert" value="{#update}" onclick="SCAYTOptionsDialog.applySettings();"/>
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />

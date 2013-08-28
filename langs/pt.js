@@ -30,9 +30,12 @@ tinyMCE.addI18n('pt.scayt',{
 	label_ignoreDomainNames: "Ignorar nomes de domínio",
 	label_mixedCase: "Ignorar palavras com maiúsculas e minúsculas misturadas",
 	label_mixedWithDigits: "Ignorar palavras com números",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Nome do Dicionário",
 	dic_about_info: "Inicialmente, o dicionário do usuário fica armazenado em um Cookie. Porém, Cookies tem tamanho limitado, portanto quand o dicionário do usuário atingir o tamanho limite poderá ser armazenado no nosso servidor. Para armazenar seu dicionário pessoal no nosso servidor deverá especificar um nome para ele. Se já tiver um dicionário armazenado por favor especifique o seu nome e clique em Restaurar.",
 	dic_create: "Criar",

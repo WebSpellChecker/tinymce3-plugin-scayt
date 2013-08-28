@@ -31,9 +31,12 @@ tinyMCE.addI18n('el.scayt',{
 	label_ignoreDomainNames: "Ignore Domain Names",
 	label_mixedCase: "Ignore Words with Mixed Case",
 	label_mixedWithDigits: "Ignore Words with Numbers",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy;1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Dictionary Name",
 	dic_about_info: "Initially the User Dictionary is stored in a Cookie. However, Cookies are limited in size. When the User Dictionary grows to a point where it cannot be stored in a Cookie, then the dictionary may be stored on our server. To store your personal dictionary on our server you should specify a name for your dictionary. If you already have a stored dictionary, please type it's name and click the Restore button.",
 	dic_create: "Create",

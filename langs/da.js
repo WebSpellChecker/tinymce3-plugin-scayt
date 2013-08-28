@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Ignorér domænenavne",
 	label_mixedCase: "Ignorer ord med store og små bogstaver",
 	label_mixedWithDigits: "Ignorér ord med numre",
+	
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",	
 	about_help: "SCAYT help",
+
 	dic_dictionary_name: "Navn på ordbog",
 	dic_about_info: "Til start er brugerordbogen gemt i en Cookie. Dog har Cookies en begrænsning på størrelse. Når ordbogen når en bestemt størrelse kan den blive gemt på vores server. For at gemme din personlige ordbog på vores server skal du angive et navn for denne. Såfremt du allerede har gemt en ordbog, skriv navnet på denne og klik på Gendan knappen.",
 	dic_create: "Opret",

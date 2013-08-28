@@ -12,7 +12,7 @@ tinyMCE.addI18n('fr.scayt',{
 	tb_menu_options : 'Options',
 	tb_menu_languages: 'Langues',
 	tb_menu_dictionaries: 'Dictionnaires',
-	tb_menu_about: 'A propos de SCAYT',
+	tb_menu_about: 'À propos de SCAYT',
 
 	tb_button_title_enable: 'Activer SCAYT', 
 	tb_button_title_disable: 'Désactiver SCAYT',
@@ -30,9 +30,12 @@ tinyMCE.addI18n('fr.scayt',{
 	label_ignoreDomainNames: "Ignorer les noms de domaines",
 	label_mixedCase: "Ignorer les mots à casse multiple",
 	label_mixedWithDigits: "Ignorer les mots contenant des chiffres",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy;1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+
 	dic_dictionary_name: "Nom du dictionnaire",
 	dic_about_info: "Initiallement, le dictionnaire de l\'utilisateur est stocké dans un cookie. Cependant, les cookies sont limités en taille. Quand le dictionnaire atteint une taille qu\'il n\'est plus possible de stocker dans un cookie, il peut alors être stocké sur nos serveurs. Afin de stocker votre dictionnaire personnel sur nos serveurs, vous devez spécifier un nom pour ce dictionnaire. Si vous avez déjà un dictionnaire stocké, merci de taper son nom puis cliquer sur Restaurer pour le récupérer.",
 	dic_create: "Créer",

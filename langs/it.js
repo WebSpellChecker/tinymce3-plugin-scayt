@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Ignora nomi di dominio",
 	label_mixedCase: "Ignora parole con maiuscole e minuscole",
 	label_mixedWithDigits: "Ignora parole con numeri",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Dictionary Name",
 	dic_about_info: "Inizialmente il dizionario utente è memorizzato in un Cookie. I Cookie però hanno una dimensioni massima limitata. Quando il dizionario utente creasce a tal punto da non poter più essere memorizzato in un Cookie, allora il dizionario può essere memorizzato sul nostro server. Per memorizzare il proprio dizionario personale sul nostro server, è necessario specificare un nome per il proprio dizionario. Se avete già memorizzato un dizionario, inserite il nome che gli avete dato e premete il pulsante Ripristina.",
 	dic_create: "Crea",

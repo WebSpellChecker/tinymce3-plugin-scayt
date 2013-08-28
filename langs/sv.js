@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Ignorera domännamn",
 	label_mixedCase: "Ignorera ord med blandat shiftläge",
 	label_mixedWithDigits: "Ignorera ord med nummer",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Ordlistans namn",
 	dic_about_info: "Inledningsvis lagras ordlistan i en cookie. När ordlista växer till en punkt där det inte kan lagras i en cookie, lagras den på vår server. För att lagra din personliga ordlista på vår server du ska ange ett namn för din ordbok. Om du redan har en lagrad ordbok, skriv namnet och klicka på knappen Återställ.",
 	dic_create: "Skapa",

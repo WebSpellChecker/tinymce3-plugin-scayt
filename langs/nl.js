@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Negeer domeinnamen",
 	label_mixedCase: "Negeer woorden met hoofd- en kleine letters",
 	label_mixedWithDigits: "Negeer woorden met cijfers",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Naam woordenboek",
 	dic_about_info: "Initieel wordt het gebruikerswoordenboek opgeslagen in een cookie. Cookies zijn echter beperkt in grootte. Zodra het gebruikerswoordenboek het punt bereikt waarop het niet meer in een cookie opgeslagen kan worden, dan wordt het woordenboek op de server opgeslagen. Om je persoonlijke woordenboek op je eigen server op te slaan, moet je een mapnaam opgeven. Indien je al een woordenboek hebt opgeslagen, typ dan de naam en klik op de Terugzetten knop.",
 	dic_create: "Aanmaken",
