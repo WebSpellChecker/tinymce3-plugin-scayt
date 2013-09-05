@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Domain-Namen ignorieren",
 	label_mixedCase: "Wörter mit gemischte Setzkasten ignorieren",
 	label_mixedWithDigits: "Wörter mit Zahlen ignorieren",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, All Rights Reserved.",
+	about_version_num: "3.0.0",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Wörterbuchname",
 	dic_about_info: "Anfangs wird das Benutzerwörterbuch in einem Cookie gespeichert. Allerdings sind Cookies in der Größe begrenzt. Wenn das Benutzerwörterbuch bis zu einem Punkt wächst, wo es nicht mehr in einem Cookie gespeichert werden kann, wird das Benutzerwörterbuch auf dem Server gespeichert. Um Ihr persönliches Wörterbuch auf dem Server zu speichern, müssen Sie einen Namen für das Wörterbuch angeben. Falls  Sie schon ein gespeicherte Wörterbuch haben, geben Sie bitte dessen Namen ein und klicken Sie auf die Schaltfläche Wiederherstellen.",
 	dic_create: "Erzeugen",

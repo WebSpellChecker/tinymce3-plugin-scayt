@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Ohita verkkotunnukset",
 	label_mixedCase: "Ohita sanat, joissa on sekoitettu isoja ja pieniä kirjaimia",
 	label_mixedWithDigits: "Ohita sanat, joissa on numeroita",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+
 	dic_dictionary_name: "Sanakirjan nimi",
 	dic_about_info: "Oletuksena sanakirjat tallennetaan evästeeseen, mutta evästeiden koko on kuitenkin rajallinen. Sanakirjan kasvaessa niin suureksi, ettei se enää mahdu evästeeseen, sanakirja täytyy tallentaa palvelimellemme. Tallentaaksesi sanakirjasi palvelimellemme tulee sinun antaa sille nimi. Jos olet jo tallentanut sanakirjan, anna sen nimi ja klikkaa Palauta-painiketta",
 	dic_create: "Luo",

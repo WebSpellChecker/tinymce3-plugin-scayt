@@ -8,7 +8,7 @@
 	cm_add_word:'Legg til ord',  
 	cm_ignore_word:'Ignorer',
 	cm_ignore_all: 'Ignorer Alle',
-	cm_about: 'About SCAYT',
+	cm_about: 'Om SCAYT',
 
 	tb_menu_options : 'Valg',
 	tb_menu_languages: 'Språk',
@@ -21,7 +21,7 @@
 	tab_options : 'Valg',
 	tab_languages: 'Språk',
 	tab_dictionaries: 'Ordbøker',
-	tab_about: 'Om',
+	tab_about: 'Om SCAYT',
 
 	disabled_alert:"SpellCheckAsYouType (SCAYT) is disabled. Enable to proceed.",
 
@@ -31,9 +31,12 @@
 	label_ignoreDomainNames: "Ikke kontroller domenenavn",
 	label_mixedCase: "Ikke kontroller ord med blandet små og store bokstaver",
 	label_mixedWithDigits: "Ikke kontroller ord som inneholder tall",
+
 	about_version: "Version",
-	about_throwt_copy: "&copy;1999-2012 SpellChecker.net, Inc.<br>&copy;2005-2011, The Dojo Foundation<br>All Rights Reserved.",
+	about_version_num: "3.0.0",
+	about_throwt_copy: "&copy; 1999-2013 SpellChecker.net, Inc.<br> All Rights Reserved.",
 	about_help: "SCAYT help",
+	
 	dic_dictionary_name: "Ordboknavn",
 	dic_about_info: "Brukerordboken lagres først i en informasjonskapsel på din maskin, men det er en begrensning på hvor mye som kan lagres her. Når ordboken blir for stor til å lagres i en informasjonskapsel, vil vi i stedet lagre ordboken på vår server. For å lagre din personlige ordbok på vår server, burde du velge et navn for ordboken din. Hvis du allerede har lagret en ordbok, vennligst skriv inn ordbokens navn og klikk på Gjenopprett-knappen.",
 	dic_create: "Opprett",
