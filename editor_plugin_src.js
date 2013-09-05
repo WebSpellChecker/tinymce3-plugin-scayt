@@ -2,7 +2,8 @@
     // Load plugin specific language pack
 	tinymce.PluginManager.requireLangPack('scayt');
 	
-    var each = tinymce.each, DOM = tinymce.DOM;
+    var each = tinymce.each, DOM = tinymce.DOM,
+        Event = tinymce.dom.Event;
     tinymce._scayt_start_load = false;
     tinymce._is_scayt_loaded = false;
 	
@@ -486,6 +487,23 @@
                
                 ed.onUndo.add(t._refresh("onUndo"));
                 ed.onRedo.add(t._refresh("onRedo"));
+
+                if (ed.theme.onResolveName) {
+                    ed.theme.onResolveName.add(function(aTheme, aNode){
+                        var nodeAttr = aNode.node.getAttribute('data-scaytid') || aNode.node.getAttribute('data-scayt_word'),
+                            pathNode = DOM.get(ed.id + '_path'), _childNode;
+
+                        if (aNode.node.nodeName.toLowerCase() == "span" && nodeAttr) {
+                            aNode.name = "";
+                            clearTimeout(timeout);
+                            var timeout = setTimeout(function() {
+                                _childNode = pathNode.lastChild;
+                                _childNode.parentNode.removeChild(_childNode);
+                            }, 100);
+                        }
+                        
+                    });
+                };
                
                 ed.onSetContent.add(function(){
                     
