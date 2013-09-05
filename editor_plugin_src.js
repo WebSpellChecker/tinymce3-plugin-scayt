@@ -643,6 +643,8 @@
 			// Default to 'http' for unknown.
 			protocol = protocol.search( /https?:/) != -1? protocol : 'http:';
 			var baseUrl  = self.editor.settings.scayt_custom_url;
+			baseUrl = baseUrl.search(/^\/\//) == 0 ? protocol + baseUrl : baseUrl;
+			
 			if(!self.isScriptLoaded() && (typeof window.SCAYT === "undefined" || (typeof window.SCAYT !== "undefined" && typeof window.SCAYT.TINYMCE !== "function")) && !self.isScaytReady && !tinymce.isLoadingStarted){
 				if(editor.settings.scayt_auto_startup){
 					self.startingStack.push(editor.id);
