@@ -498,9 +498,9 @@
 							for (var i = 0, l = suggestions.length; i < l; i += 1) {
 								
 								suggestMenuItem = {
-									title: (suggestions.length > 1) ? suggestions[i] : 'scayt.' + suggestions[i],
+									title: (suggestions.length > 0) ? suggestions[i] : 'scayt.' + suggestions[i],
 									icon: '',
-									cmd: (suggestions.length > 1) ? createMenuCommand(scaytInstance, suggestions[i]) : ''
+									cmd: (suggestions.length > 0) ? createMenuCommand(scaytInstance, suggestions[i]) : ''
 								}; 
 								
 								
