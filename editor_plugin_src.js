@@ -498,9 +498,9 @@
 							for (var i = 0, l = suggestions.length; i < l; i += 1) {
 								
 								suggestMenuItem = {
-									title: (suggestions.length > 0) ? suggestions[i] : 'scayt.' + suggestions[i],
+									title: (suggestions.length > 1) ? suggestions[i] : 'scayt.' + suggestions[i],
 									icon: '',
-									cmd: (suggestions.length > 0) ? createMenuCommand(scaytInstance, suggestions[i]) : ''
+									cmd: (suggestions.length > 1) ? createMenuCommand(scaytInstance, suggestions[i]) : ''
 								}; 
 								
 								
@@ -743,10 +743,6 @@
 
 				if (editor.getParam('scayt_service_path')) {
 					_scaytInstanceOptions['service_path'] = editor.getParam('scayt_service_path');
-				}
-
-				if (editor.getParam('scayt_options_to_restore')) {
-					_scaytInstanceOptions['options-to-restore'] = editor.getParam('scayt_options_to_restore');
 				}
 				
 				var _scaytInstance = new SCAYT.TINYMCE(_scaytInstanceOptions, function(){
