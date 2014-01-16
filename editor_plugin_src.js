@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2009, Moxiecode Systems AB
+ * Copyright 2014, Moxiecode Systems AB
  * Released under LGPL License.
  *
  * License: http://tinymce.moxiecode.com/license
