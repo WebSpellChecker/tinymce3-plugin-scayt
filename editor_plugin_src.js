@@ -20,7 +20,9 @@
 		var state = {},
 			instances = {},
 			suggestions = [],
-			isLoadingStarted = false,
+			loadingHelper = {
+				loadOrder: []
+			},
 			backCompatibilityMap = {
 				'scayt_context_commands'		: 'scayt_contextCommands',
 				'scayt_slang'					: 'scayt_sLang',
@@ -55,58 +57,68 @@
 			protocol = protocol.search(/https?:/) !== -1 ? protocol : 'http:';
 			baseUrl = baseUrl.search(/^\/\//) === 0 ? protocol + baseUrl : baseUrl;
 
-			if(!isLoadingStarted && (typeof window.SCAYT === 'undefined' || typeof window.SCAYT.TINYMCE !== 'function')) {
+			if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.TINYMCE !== 'function') {
 				var scriptLoader = new tinymce.dom.ScriptLoader();
 
+				// add onLoad callbacks for editors while SCAYT is loading
+				loadingHelper[editor.id] = callback;
+				loadingHelper.loadOrder.push(editor.id);
+
 				scriptLoader.add(baseUrl);
-				isLoadingStarted = true;
 				scriptLoader.loadQueue(function(success) {
-					editor.onScaytReady.dispatch();
-					
-					for(var editorName in state) {
-						if(state[editorName] === true) {
-							if(typeof callback === 'function') {
-								callback(tinymce.editors[editorName]);
-							}
+					var editorName;
+
+					for(var i = 0; i < loadingHelper.loadOrder.length; i++) {
+						editorName = loadingHelper.loadOrder[i];
+
+						tinymce.plugins.SCAYT.fireOnce(tinymce.editors[editorName], 'onScaytReady');
+
+						if(typeof loadingHelper[editorName] === 'function') {
+							loadingHelper[editorName](tinymce.editors[editorName]);
 						}
+
+						delete loadingHelper[editorName];
 					}
-					
+					loadingHelper.loadOrder = [];
 				});
 			} else if(window.SCAYT && typeof window.SCAYT.TINYMCE === 'function') {
-				if(typeof callback === 'function') {
-					callback(editor);
+				tinymce.plugins.SCAYT.fireOnce(editor, 'onScaytReady');
+
+				if(!tinymce.plugins.SCAYT.getScayt(tinymce.editors[editor.id])) {
+					if(typeof callback === 'function') {
+						callback(editor);
+					}
 				}
 			}
 		};
 
 		var createScayt = function(editor) {
-			loadScaytLibrary(editor, function() {
+			loadScaytLibrary(editor, function(_editor) {
 				var _scaytInstanceOptions = {
-					debug 				: false,
-					lang 				: editor.getParam('scayt_sLang'),
-					container 			: editor.getContentAreaContainer().children[0],
-					customDictionary	: editor.getParam('scayt_customDictionaryIds'),
-					userDictionaryName 	: editor.getParam('scayt_userDictionaryName'),
-					localization		: editor.getParam('language') || 'en',
-					customer_id			: editor.getParam('scayt_customerId'),
-					data_attribute_name : editor.plugins.scayt.options.dataAttributeName,
-					misspelled_word_class : editor.plugins.scayt.options.misspelledWordClass
+					lang 				: _editor.getParam('scayt_sLang'),
+					container 			: _editor.getContentAreaContainer().children[0],
+					customDictionary	: _editor.getParam('scayt_customDictionaryIds'),
+					userDictionaryName 	: _editor.getParam('scayt_userDictionaryName'),
+					localization		: _editor.getParam('language') || 'en',
+					customer_id			: _editor.getParam('scayt_customerId'),
+					data_attribute_name : _editor.plugins.scayt.options.dataAttributeName,
+					misspelled_word_class : _editor.plugins.scayt.options.misspelledWordClass
 				};
 
-				if(editor.getParam('scayt_serviceProtocol')) {
-					_scaytInstanceOptions['service_protocol'] = editor.getParam('scayt_serviceProtocol');
+				if(_editor.getParam('scayt_serviceProtocol')) {
+					_scaytInstanceOptions['service_protocol'] = _editor.getParam('scayt_serviceProtocol');
 				}
 
-				if(editor.getParam('scayt_serviceHost')) {
-					_scaytInstanceOptions['service_host'] = editor.getParam('scayt_serviceHost');
+				if(_editor.getParam('scayt_serviceHost')) {
+					_scaytInstanceOptions['service_host'] = _editor.getParam('scayt_serviceHost');
 				}
 
-				if(editor.getParam('scayt_servicePort')) {
-					_scaytInstanceOptions['service_port'] = editor.getParam('scayt_servicePort');
+				if(_editor.getParam('scayt_servicePort')) {
+					_scaytInstanceOptions['service_port'] = _editor.getParam('scayt_servicePort');
 				}
 
-				if(editor.getParam('scayt_servicePath')) {
-					_scaytInstanceOptions['service_path'] = editor.getParam('scayt_servicePath');
+				if(_editor.getParam('scayt_servicePath')) {
+					_scaytInstanceOptions['service_path'] = _editor.getParam('scayt_servicePath');
 				}
 				
 				var scaytInstance = new SCAYT.TINYMCE(_scaytInstanceOptions,
@@ -123,7 +135,7 @@
 					suggestions = data.suggestionList;
 				});
 
-				instances[editor.id] = scaytInstance;
+				instances[_editor.id] = scaytInstance;
 			});
 		};
 		var destroyScayt = function(editor) {
@@ -160,6 +172,12 @@
 			},
 			replaceOldOptionsNames: function(config) {
 				replaceOldOptionsNames(config);
+			},
+			fireOnce: function(editor, event) {
+				if(!editor['uniqueEvtKey_' + event]) {
+					editor['uniqueEvtKey_' + event] = true;
+					editor[event].dispatch();
+				}
 			}
 		};
 	}());
@@ -205,11 +223,7 @@
 				},
 				scayt_contextCommands: {
 					type: 'string',
-					'default': 'add,ignore,ignoreall',
-					allowable: {
-						all: true,
-						off: false
-					}
+					'default': 'add,ignore,ignoreall'
 				},
 				scayt_contextMenuItemsOrder: {
 					type: 'string',
@@ -269,16 +283,20 @@
 
 						definitions[optionName].value = settings[optionName] = editor.getParam(optionName);
 
+						// process 'scayt_maxSuggestions' option
 						if(optionName === 'scayt_maxSuggestions' && editor.getParam(optionName) < 0) {
-							definitions[optionName]['value'] = settings[optionName] = definitions['scayt_maxSuggestions']['default'];
+							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
 						}
 
-						if(editor.getParam('scayt_contextCommands') === 'off') {
-							definitions['scayt_contextCommands']['value'] = settings['scayt_contextCommands'] = '';
-						} else if(editor.getParam('scayt_contextCommands') === 'all') {
-							definitions['scayt_contextCommands']['value'] = settings['scayt_contextCommands'] = definitions['scayt_contextCommands']['default'];
-						} else {
-							definitions['scayt_contextCommands']['value'] = settings['scayt_contextCommands'] = patt.test(editor.getParam('scayt_contextCommands')) ? editor.getParam('scayt_contextCommands').replace(patt, ',') : editor.getParam('scayt_contextCommands');
+						// process 'scayt_contextCommands' option
+						if(optionName === 'scayt_contextCommands') {
+							if(editor.getParam(optionName) === 'off') {
+								definitions[optionName]['value'] = settings[optionName] = '';
+							} else if(editor.getParam(optionName) === 'all') {
+								definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
+							} else {
+								definitions[optionName]['value'] = settings[optionName] = patt.test(editor.getParam(optionName)) ? editor.getParam(optionName).replace(patt, ',') : editor.getParam(optionName);
+							}
 						}
 
 					} else {
@@ -539,20 +557,32 @@
 									cmd: 'scayt_ignore_all_words'
 								}
 							};
+
 							// suggestion generation for tinymce menu
-							for(var i = 0, l = suggestions.length; i < l; i += 1) {
-								
+							if(suggestions.length > 0 && suggestions[0] !== 'no_any_suggestions') {
+								for(var i = 0, l = suggestions.length; i < l; i += 1) {
+									suggestMenuItem = {
+										title: suggestions[i],
+										icon: '',
+										cmd: createMenuCommand(scaytInstance, suggestions[i])
+									}; 
+									
+									if(i < self.parseConfig.getValue('scayt_maxSuggestions')) {
+										suggest_group.push(suggestMenuItem); // add main suggestions to menu
+									} else if(self.parseConfig.getValue('scayt_moreSuggestions') === 'on') {
+										moresuggest_group.push(suggestMenuItem); // add item to the more suggestions submenu group
+									}
+								}
+							} else {
 								suggestMenuItem = {
-									title: (suggestions.length > 0 && suggestions[0] !== 'no_any_suggestions') ? suggestions[i] : 'scayt.' + suggestions[i],
+									title: editor.getLang('scayt.no_any_suggestions', 'No suggestions'),
 									icon: '',
-									cmd: (suggestions.length > 0 && suggestions[0] !== 'no_any_suggestions') ? createMenuCommand(scaytInstance, suggestions[i]) : ''
+									cmd: '',
+									disabled: true,
+									active: 0
 								}; 
 								
-								if(i < self.parseConfig.getValue('scayt_maxSuggestions')) {
-									suggest_group.push(suggestMenuItem); // add main suggestions to menu
-								} else if(self.parseConfig.getValue('scayt_moreSuggestions') === 'on') {
-									moresuggest_group.push(suggestMenuItem); // add item to the more suggestions submenu group
-								}
+								suggest_group.push(suggestMenuItem); // add main suggestions to menu
 							}
 
 							// Add single commands
@@ -585,12 +615,12 @@
 								icon: 'scayt_about',
 								cmd: 'scayt_about'
 							});
-
+							
 							var menuRender = {
 								moresuggest: function() {
 									menu.addSeparator();
 							
-									if(!sub_menu && suggestions.length > 1 && self.parseConfig.getValue('scayt_moreSuggestions') === 'on') {
+									if(!sub_menu && suggestions.length > self.parseConfig.getValue('scayt_maxSuggestions') && self.parseConfig.getValue('scayt_moreSuggestions') === 'on') {
 										menu.addSeparator();
 										
 										sub_menu = menu.addMenu({
@@ -598,10 +628,10 @@
 										});
 
 										menu.addSeparator();
-									}
-									
-									for(var i=0; i<moresuggest_group.length; i++) {
-										sub_menu.add(moresuggest_group[i]);
+
+										for(var i = 0; i < moresuggest_group.length; i++) {
+											sub_menu.add(moresuggest_group[i]);
+										}
 									}
 								},
 								control: function() {
@@ -612,10 +642,13 @@
 									}
 								},
 								suggest: function() {
-									menu.addSeparator();
+									if(suggestions.length === 0 || suggestions[0] === 'no_any_suggestions') {
+										menu.add(suggest_group[0]).setDisabled(1);
+									} else {
 
-									for(var i=0; i<suggest_group.length; i++) {
-										menu.add(suggest_group[i]);
+										for(var i = 0; i < suggest_group.length; i++) {
+											menu.add(suggest_group[i]);
+										}
 									}
 								}
 							};
