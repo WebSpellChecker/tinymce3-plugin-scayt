@@ -453,15 +453,16 @@
 			};
 			
 			var containsItemInArray = function(array, obj) {
-				for(var i = array.length - 1; i >= 0; i--) {
-				
-					if((array[i] === obj)) {
+				var i = array.length;
+
+				while(i--) {
+					if(array[i] === obj) {
 						return true;
 					}
-				
-					return false;
 				}
-			};
+				
+				return false;
+			}
 			
 			scaytControl.onRenderMenu.add(function(btn, menu) {
 				var _scayt_uiTabs = editor.getParam('scayt_uiTabs').split(',');
