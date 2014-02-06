@@ -559,7 +559,7 @@
 							};
 
 							// suggestion generation for tinymce menu
-							if(suggestions.length > 0 && suggestions[0] !== 'no_any_suggestions') {
+							if(suggestions.length > 0 && suggestions[0] !== 'no_any_suggestionse') {
 								for(var i = 0, l = suggestions.length; i < l; i += 1) {
 									suggestMenuItem = {
 										title: suggestions[i],
@@ -642,7 +642,7 @@
 									}
 								},
 								suggest: function() {
-									if(suggestions.length === 0 || suggestions[0] === 'no_any_suggestions') {
+									if(suggestions.length === 0 || suggestions[0] === 'no_any_suggestionse') {
 										menu.add(suggest_group[0]).setDisabled(1);
 									} else {
 
@@ -732,6 +732,9 @@
 			ed.onRemove.add(function(ed) {
 				scaytDestroy(ed);
 			});
+			tinymce.onRemoveEditor.add(function(tinymce, ed) {
+				return scaytDestroy(ed);
+			});
 
 			if(ed.theme.onResolveName) {
 				ed.theme.onResolveName.add(function(th, o) {
@@ -757,7 +760,11 @@
 
 					if(scaytInstance) {
 						if(cmd === 'mceInsertContent') {
-							scaytInstance.removeMarkupInSelectionNode();
+							// scaytInstance.removeMarkupInSelectionNode();
+							setTimeout(function() { 
+								scaytInstance.removeMarkupInSelectionNode();
+								scaytInstance.fire("startSpellCheck");
+							}, 0);
 						}
 
 						if(cmd === 'mceRepaint' || cmd === 'Undo' || cmd === 'Redo' || cmd === 'mceInsertContent') {
@@ -767,6 +774,21 @@
 				}
 
 			});
+
+			// @TODO 'Remove formatting' handling
+			// ed.onBeforeExecCommand.add(function(ed, cmd, ui, val, a) {
+			// 	var scaytInstance;
+
+			// 	if(cmd === 'RemoveFormat') {
+			// 		if(a) {
+			// 			scaytInstance = _SCAYT.getScayt(ed);
+			// 			if(scaytInstance && scaytInstance.getSelectionNode()) {
+			// 				a.terminate = true;
+			// 				return false;
+			// 			}
+			// 		}
+			// 	}
+			// });
 			
 			ed.onExecCommand.add(function(editor, cmd, ui, val) {
 				var scaytInstance = _SCAYT.getScayt(editor);
@@ -836,10 +858,6 @@
 				}
 				
 				return o;
-			});
-			
-			tinymce.onRemoveEditor.add(function(tinymce, ed) {
-				return scaytDestroy(ed);
 			});
 			
 			ed.addCommand('mceScayt', function(data) {
