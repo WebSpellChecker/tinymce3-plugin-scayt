@@ -814,7 +814,7 @@
 
 			});
 
-			ed.onBeforeSetContent.add(function(ed, o) {
+			ed.onSetContent.add(function(ed, o) {
 				var scaytInstance = _SCAYT.getScayt(editor);
 
 				if(scaytInstance) {
