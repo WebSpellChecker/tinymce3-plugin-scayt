@@ -755,12 +755,14 @@
 				} else {
 					scaytInstance = _SCAYT.getScayt(editor);
 
-					if(scaytInstance && cmd === 'mceInsertContent') {
-						scaytInstance.removeMarkupInSelectionNode();
-					}
+					if(scaytInstance) {
+						if(cmd === 'mceInsertContent') {
+							scaytInstance.removeMarkupInSelectionNode();
+						}
 
-					if(scaytInstance && (cmd === 'mceRepaint') || (cmd === 'Undo') || (cmd === 'Redo') || cmd === 'mceInsertContent') {
-						scaytInstance.fire('startSpellCheck');
+						if(cmd === 'mceRepaint' || cmd === 'Undo' || cmd === 'Redo' || cmd === 'mceInsertContent') {
+							scaytInstance.fire('startSpellCheck');
+						}
 					}
 				}
 
