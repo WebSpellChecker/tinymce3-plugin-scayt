@@ -68,10 +68,10 @@
 				scriptLoader.loadQueue(function(success) {
 					var editorName;
 
+					tinymce.plugins.SCAYT.fireOnce(tinymce, 'onScaytReady');
+
 					for(var i = 0; i < loadingHelper.loadOrder.length; i++) {
 						editorName = loadingHelper.loadOrder[i];
-
-						tinymce.plugins.SCAYT.fireOnce(tinymce.editors[editorName], 'onScaytReady');
 
 						if(typeof loadingHelper[editorName] === 'function') {
 							loadingHelper[editorName](tinymce.editors[editorName]);
@@ -82,7 +82,7 @@
 					loadingHelper.loadOrder = [];
 				});
 			} else if(window.SCAYT && typeof window.SCAYT.TINYMCE === 'function') {
-				tinymce.plugins.SCAYT.fireOnce(editor, 'onScaytReady');
+				tinymce.plugins.SCAYT.fireOnce(tinymce, 'onScaytReady');
 
 				if(!tinymce.plugins.SCAYT.getScayt(tinymce.editors[editor.id])) {
 					if(typeof callback === 'function') {
@@ -173,10 +173,10 @@
 			replaceOldOptionsNames: function(config) {
 				replaceOldOptionsNames(config);
 			},
-			fireOnce: function(editor, event) {
-				if(!editor['uniqueEvtKey_' + event]) {
-					editor['uniqueEvtKey_' + event] = true;
-					editor[event].dispatch();
+			fireOnce: function(obj, event) {
+				if(!obj['uniqueEvtKey_' + event]) {
+					obj['uniqueEvtKey_' + event] = true;
+					obj[event].dispatch();
 				}
 			}
 		};
@@ -721,9 +721,6 @@
 				}
 			};
 			
-			// Creating a new event when scayt is ready
-			ed.onScaytReady = new tinymce.util.Dispatcher(ed);
-			
 			// Initialization the tinymce editor
 			ed.onInit.add(function(ed) {
 				contentDomReady(ed);
@@ -891,4 +888,25 @@
 	// Register plugin
 	tinymce.PluginManager.add('scayt', ScaytPlugin);
 
+	// Creating a new event when scayt is ready
+	tinymce.onScaytReady = new tinymce.util.Dispatcher();
+
+	// Handle 'onScaytReady' callback
+	tinymce.onScaytReady.add(function() {
+		// override editor dirty checking behaviour
+		tinymce.EditorManager.Editor.prototype.isDirty = function() {	
+			var scaytInstance = tinymce.plugins.SCAYT.getScayt(this),
+				startContent, getContent;
+			
+			if(scaytInstance) {
+				startContent = tinymce.trim(scaytInstance.removeMarkupFromString(this.startContent));
+				getContent = tinymce.trim(scaytInstance.removeMarkupFromString(this.getContent({format : 'raw', no_events : 1})));
+			} else {	
+				startContent = tinymce.trim(this.startContent);
+				getContent = tinymce.trim(this.getContent({format : 'raw', no_events : 1}));
+			}
+
+			return (getContent != startContent) && !this.isNotDirty;
+		}
+	});
 })();
