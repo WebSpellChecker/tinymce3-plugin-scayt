@@ -697,7 +697,8 @@
 			var self = this,
 				_SCAYT = tinymce.plugins.SCAYT,
 				scaytPlugin = editor.plugins.scayt,
-				ed = editor;
+				ed = editor,
+				lastExecutedCommand;
 
 			var contentDomReady = function(editor) {
 				// The event are fired when editable iframe node was reinited so we should restart our service
@@ -760,19 +761,26 @@
 
 					if(scaytInstance) {
 						if(cmd === 'mceInsertContent') {
-							// scaytInstance.removeMarkupInSelectionNode();
-							setTimeout(function() { 
+							if(lastExecutedCommand && lastExecutedCommand === 'mceEmotion') {
+								setTimeout(function() { 
+									scaytInstance.removeMarkupInSelectionNode();
+									scaytInstance.fire("startSpellCheck");
+								}, 0);
+							} else {
 								scaytInstance.removeMarkupInSelectionNode();
-								scaytInstance.fire("startSpellCheck");
-							}, 0);
+								setTimeout(function() { 
+									scaytInstance.fire("startSpellCheck");
+								}, 0);
+							}
 						}
 
-						if(cmd === 'mceRepaint' || cmd === 'Undo' || cmd === 'Redo' || cmd === 'mceInsertContent') {
+						if(cmd === 'mceRepaint' || cmd === 'Undo' || cmd === 'Redo') {
 							scaytInstance.fire('startSpellCheck');
 						}
 					}
 				}
 
+				lastExecutedCommand = cmd;
 			});
 
 			// @TODO 'Remove formatting' handling
