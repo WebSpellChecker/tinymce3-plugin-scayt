@@ -840,8 +840,10 @@
 				var scaytInstance = _SCAYT.getScayt(editor);
 
 				if(scaytInstance) {
-					scaytInstance.removeMarkupInSelectionNode();
-					scaytInstance.fire('startSpellCheck');
+					setTimeout(function() {
+						scaytInstance.removeMarkupInSelectionNode();
+						scaytInstance.fire('startSpellCheck');
+					}, 0);
 				}
 			});
 
