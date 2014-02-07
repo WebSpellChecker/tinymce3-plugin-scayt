@@ -702,7 +702,7 @@
 
 			var contentDomReady = function(editor) {
 				// The event are fired when editable iframe node was reinited so we should restart our service
-				if(_SCAYT.getState(editor) === true) {
+				if(_SCAYT.getState(editor) === true && !editor.settings.readonly) {
 					_SCAYT.create(editor);
 					editor.controlManager.controls[editor.controlManager.prefix + 'scayt'].setActive(1);
 				}
