@@ -15,7 +15,7 @@
 
 	// Create SCAYT namespace in tinymce.plugins
 	tinymce.createNS('tinymce.plugins.SCAYT');
-	
+
 	tinymce.plugins.SCAYT = (function() {
 		var state = {},
 			instances = {},
@@ -120,7 +120,7 @@
 				if(_editor.getParam('scayt_servicePath')) {
 					_scaytInstanceOptions['service_path'] = _editor.getParam('scayt_servicePath');
 				}
-				
+
 				var scaytInstance = new SCAYT.TINYMCE(_scaytInstanceOptions,
 					function() {
 						// success callback
@@ -257,21 +257,22 @@
 					type: 'string',
 					'default': null
 				}
-			}, 
+			},
+			init: function(editor) {
+				this._parseOptions(editor);
+			},
 			getValue: function(optionName) {
 				return this._definitions[optionName].value;
 			},
 			setValue: function(optionName, newValue) {
-				var self = this,
-					value = newValue || '',
+				var value = newValue || '',
 					settings = editor.settings;
 
-				return self._definitions[optionName].value = settings[optionName] = value;
+				return this._definitions[optionName].value = settings[optionName] = value;
 			},
 			_parseOptions: function(editor) {
-				var self = this,
-					settings = editor.settings,
-					definitions = self._definitions,
+				var settings = editor.settings,
+					definitions = this._definitions,
 					_SCAYT = tinymce.plugins.SCAYT,
 					patt = /\s?[\|]+\s?/gi;
 
@@ -299,19 +300,37 @@
 							}
 						}
 
+						// process 'scayt_uiTabs' option
+						if(optionName === 'scayt_uiTabs') {
+							definitions[optionName]['value'] = settings[optionName] = settings[optionName].split(',');
+							// lets validate our scayt_uiTabs option : now it should contain comma separated '0' or '1' symbols
+							if(settings[optionName].length != 3 || !validateArray(settings[optionName], function(value) {
+								return value == 0 || value == 1;
+							})) {
+								definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
+							}
+						}
 					} else {
-						definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
+						if(optionName === 'scayt_uiTabs') {
+							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
+						} else {
+							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
+						}
 					}
 				}
 
 				_SCAYT.setState(editor, settings.scayt_autoStartup);
-			},
-			init: function(editor) {
-				var self = this,
-					ed = editor,
-					definitions = self._definitions;
 
-				self._parseOptions(ed);
+				function validateArray(array, comparison) {
+					var result = true;
+
+					for(var i = 0, len = array.length; i < len; i++) {
+						result = result && comparison(array[i]);
+						if(!result) break;
+					}
+
+					return result;
+				}
 			}
 		};
 	};
@@ -326,16 +345,14 @@
 		 * @param  {string} url	 Absolute URL to where the plugin is located.
 		 */
 		init: function(editor, url) {
-			var self = this,
-				_SCAYT = tinymce.plugins.SCAYT,
-				ed = editor,
-				settings = ed.settings;
+			var _SCAYT = tinymce.plugins.SCAYT,
+				settings = editor.settings;
 
-			self.options.url = url;
-			self.toolbarScaytTabs = null;
+			this.options.url = url;
+			this.toolbarScaytTabs = null;
 
-			self.parseConfig.init(ed);
-			self.bindEvents(ed);
+			this.parseConfig.init(editor);
+			this.bindEvents(editor);
 		},
 		/**
 		 * Creates control instances based in the incomming name. This method is normally not
@@ -345,7 +362,7 @@
 		 *
 		 * @param  {String} controlName  Name of the control to create.
 		 * @param  {tinymce.ControlManager} controlManager  Control manager to use inorder to create new control.
-		 * 
+		 *
 		 * @return {tinymce.ui.Control}  New control instance or null if no control was created.
 		 */
 		createControl: function(controlName, controlManager) {
@@ -358,26 +375,22 @@
 				_SCAYT = tinymce.plugins.SCAYT,
 				editor = controlManager.editor,
 				contextMenu = editor.plugins.scaytcontextmenu || editor.plugins.contextmenu;
-			
+
 			self.disabledScaytButtonsMenu = function() {
-				var self = this;
-				
 				for(var item in self.toolbarScaytTabs) {
 					self.toolbarScaytTabs[item].setDisabled(1);
 				}
 			};
-			
+
 			self.enabledScaytButtonsMenu = function() {
-				var self = this;
-				
 				for(var item in self.toolbarScaytTabs) {
 					self.toolbarScaytTabs[item].setDisabled(0);
 				}
 			};
-			
+
 			var scaytControlHandler = function(data) {
 				var scaytPluginState = _SCAYT.setState(editor, !_SCAYT.getState(editor));
-				
+
 				if(scaytPluginState) {
 					_SCAYT.create(editor);
 					editor.controlManager.controls[editor.controlManager.prefix + 'scayt'].setActive(1);
@@ -387,9 +400,9 @@
 					editor.controlManager.controls[editor.controlManager.prefix + 'scayt'].setActive(0);
 					self.disabledScaytButtonsMenu();
 				}
-				
+
 			};
-			
+
 			var scaytControl = controlManager.createSplitButton(controlName, {
 				title: 'scayt.desc',
 				cmd: 'mceScayt',
@@ -397,7 +410,7 @@
 				image: self.options.url + '/img/scayt.gif',
 				onclick: scaytControlHandler
 			});
-			
+
 			var openDialog = function(index, editor) {
 				var scaytInstance = _SCAYT.getScayt(editor);
 				var uiTitles = [
@@ -406,10 +419,10 @@
 						'dictionary',
 						'about'
 					];
-	
+
 				editor.focus();
 				editor.settings.scaytDialogMode = uiTitles[index];
-				
+
 				editor.windowManager.open({
 					file :  self.options.url + '/ui.html',
 					width: '450',
@@ -421,7 +434,7 @@
 					s: scaytInstance
 				});
 			};
-			
+
 			// Definitions drop-down menu
 			var dropDownMenu = [
 				{
@@ -449,27 +462,27 @@
 					}
 				}
 			];
-			
+
 			var scaytContextMenu = {
 				getSelectionWord: function(instanceScayt) {
-					
+
 					if(!instanceScayt) {
 						return false;
 					}
-					
+
 					var word,
 						selectionNode = instanceScayt.getSelectionNode();
-	
+
 					if(selectionNode) {
 						word = selectionNode.getAttribute(instanceScayt.getNodeAttribute());
 					} else {
 						word = selectionNode;
 					}
-	
+
 					return word;
 				}
 			};
-			
+
 			var containsItemInArray = function(array, obj) {
 				var i = array.length;
 
@@ -478,31 +491,31 @@
 						return true;
 					}
 				}
-				
+
 				return false;
 			}
-			
+
 			scaytControl.onRenderMenu.add(function(btn, menu) {
-				var _scayt_uiTabs = editor.getParam('scayt_uiTabs').split(',');
+				var _scayt_uiTabs = editor.getParam('scayt_uiTabs');
 				// Add about tab. It should be displayed anyway
 				_scayt_uiTabs.push('1');
 				for(var i = 0, l = dropDownMenu.length; i < l; i++) {
-					
+
 					if(!parseInt(_scayt_uiTabs[i])) {
 						continue;
 					}
-					
+
 					menu.add(dropDownMenu[i]);
 				}
 
 				self.toolbarScaytTabs = menu.items;
-				
+
 				if(_SCAYT.getState(editor) === false) {
 					self.disabledScaytButtonsMenu();
 				}
-				
+
 			});
-			
+
 			if(contextMenu) {
 				setTimeout(function() {
 					contextMenu.onContextMenu.add(function(contextMenu, menu, element) {
@@ -514,7 +527,7 @@
 						if(!word) {
 							return;
 						}
-						
+
 						// Generate suggestion for SCAYT word
 						scaytInstance.fire('getSuggestionsList', {lang: scaytInstance.getLang(), word: word});
 
@@ -533,13 +546,13 @@
 								});
 
 								return cmd;
-							}, // Define generator of commands that should be runned on every SCAYT menu item	
+							}, // Define generator of commands that should be runned on every SCAYT menu item
 							suggestMenuItem = {
 								title: null,
 								icon: '',
 								cmd: null
 							}; // definition for suggestion, will be added to all suggestions in menu
-							
+
 							var controlGroupDefinition = {
 								add: {
 									title: editor.getLang('scayt.cm_add_word', 'Add word'),
@@ -565,8 +578,8 @@
 										title: suggestions[i],
 										icon: '',
 										cmd: createMenuCommand(scaytInstance, suggestions[i])
-									}; 
-									
+									};
+
 									if(i < self.parseConfig.getValue('scayt_maxSuggestions')) {
 										suggest_group.push(suggestMenuItem); // add main suggestions to menu
 									} else if(self.parseConfig.getValue('scayt_moreSuggestions') === 'on') {
@@ -580,8 +593,8 @@
 									cmd: '',
 									disabled: true,
 									active: 0
-								}; 
-								
+								};
+
 								suggest_group.push(suggestMenuItem); // add main suggestions to menu
 							}
 
@@ -597,7 +610,7 @@
 							editor.addCommand('scayt_ignore_all_words', function() {
 								scaytInstance.ignoreAllWords();
 							});
-							
+
 							var _scayt_contextCommands = self.parseConfig.getValue('scayt_contextCommands').split(',');
 
 							for(var controlItem in controlGroupDefinition) {
@@ -605,24 +618,24 @@
 									 control_group.push(controlGroupDefinition[controlItem]);
 								}
 							}
-						
+
 							editor.addCommand('scayt_about', function() {
 								openDialog(3, editor);
 							});
-						
+
 							control_group.push({
 								title: editor.getLang('scayt.cm_about', 'About SCAYT'),
 								icon: 'scayt_about',
 								cmd: 'scayt_about'
 							});
-							
+
 							var menuRender = {
 								moresuggest: function() {
 									menu.addSeparator();
-							
+
 									if(!sub_menu && suggestions.length > self.parseConfig.getValue('scayt_maxSuggestions') && self.parseConfig.getValue('scayt_moreSuggestions') === 'on') {
 										menu.addSeparator();
-										
+
 										sub_menu = menu.addMenu({
 											title: editor.getLang('scayt.cm_more_suggestions', 'More Suggestions')
 										});
@@ -655,7 +668,7 @@
 
 							var patt = /\s?[\|]+\s?/gi,
 								menuOrderDeclaration = self.parseConfig.getValue('scayt_contextMenuItemsOrder').split(',');
-								
+
 
 							// necessary for menu type ordering
 							for(var menuItem = 0; menuItem < menuOrderDeclaration.length; menuItem++) {
@@ -669,7 +682,7 @@
 					});
 				}, 0);
 			}
-		
+
 			return scaytControl;
 		},
 		/**
@@ -687,10 +700,10 @@
 				/**
 				 * @TODO
 				 * Replace the value property 'version' in accordance with the version scayt3 or write number(name) git tag
-				 * 
+				 *
 				 * @type {String}
 				 */
-				version : '3.0'	
+				version : '3.0'
 			};
 		},
 		bindEvents: function(editor) {
@@ -707,7 +720,7 @@
 					editor.controlManager.controls[editor.controlManager.prefix + 'scayt'].setActive(1);
 				}
 			};
-			
+
 			/**
 			 * Destroy SCAYT instance with current editor
 			 * @param  {object} editor
@@ -715,17 +728,17 @@
 			 */
 			var scaytDestroy = function(editor) {
 				var scaytInstance = _SCAYT.getScayt(editor);
-	
+
 				if(scaytInstance) {
 					_SCAYT.destroy(editor);
 				}
 			};
-			
+
 			// Initialization the tinymce editor
 			ed.onInit.add(function(ed) {
 				contentDomReady(ed);
 			});
-			
+
 			// Remove the tinymce editor
 			ed.onRemove.add(function(ed) {
 				scaytDestroy(ed);
@@ -741,9 +754,9 @@
 					}
 				});
 			}
-			
+
 			ed.onBeforeExecCommand.add(function(editor, cmd, ui, val) {
-				var self = this, scaytInstance;
+				var scaytInstance;
 
 				if((cmd in scaytPlugin.options.disablingCommandExec) && scaytPlugin.options.disablingCommandExec[cmd]) {
 
@@ -759,13 +772,13 @@
 					if(scaytInstance) {
 						if(cmd === 'mceInsertContent') {
 							if(lastExecutedCommand && lastExecutedCommand === 'mceEmotion') {
-								setTimeout(function() { 
+								setTimeout(function() {
 									scaytInstance.removeMarkupInSelectionNode();
 									scaytInstance.fire("startSpellCheck");
 								}, 0);
 							} else {
 								scaytInstance.removeMarkupInSelectionNode();
-								setTimeout(function() { 
+								setTimeout(function() {
 									scaytInstance.fire("startSpellCheck");
 								}, 0);
 							}
@@ -794,7 +807,7 @@
 			// 		}
 			// 	}
 			// });
-			
+
 			ed.onExecCommand.add(function(editor, cmd, ui, val) {
 				var scaytInstance = _SCAYT.getScayt(editor);
 
@@ -831,7 +844,7 @@
 
 			ed.onPaste.add(function(ed, e) {
 				var scaytInstance = _SCAYT.getScayt(ed);
-				
+
 				setTimeout(function() {
 					if(scaytInstance) {
 						scaytInstance.removeMarkupInSelectionNode();
@@ -863,10 +876,10 @@
 						o.node.innerHTML = scaytInstance.removeMarkupFromString(o.node.innerHTML);
 					}
 				}
-				
+
 				return o;
 			});
-			
+
 			ed.addCommand('mceScayt', function(data) {
 				var scaytInstance = _SCAYT.getScayt(ed);
 
@@ -879,9 +892,9 @@
 					ed.controlManager.controls[ed.controlManager.prefix + 'scayt'].setActive(0);
 					self.disabledScaytButtonsMenu();
 				}
-				
+
 			});
-			
+
 		}
 	};
 
@@ -894,14 +907,14 @@
 	// Handle 'onScaytReady' callback
 	tinymce.onScaytReady.add(function() {
 		// override editor dirty checking behaviour
-		tinymce.EditorManager.Editor.prototype.isDirty = function() {	
+		tinymce.EditorManager.Editor.prototype.isDirty = function() {
 			var scaytInstance = tinymce.plugins.SCAYT.getScayt(this),
 				startContent, getContent;
-			
+
 			if(scaytInstance) {
 				startContent = tinymce.trim(scaytInstance.removeMarkupFromString(this.startContent));
 				getContent = tinymce.trim(scaytInstance.removeMarkupFromString(this.getContent({format : 'raw', no_events : 1})));
-			} else {	
+			} else {
 				startContent = tinymce.trim(this.startContent);
 				getContent = tinymce.trim(this.getContent({format : 'raw', no_events : 1}));
 			}
