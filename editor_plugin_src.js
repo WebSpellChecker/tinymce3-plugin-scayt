@@ -23,6 +23,10 @@
 			loadingHelper = {
 				loadOrder: []
 			},
+
+			// look at multiload app realization
+			scriptLoader = new tinymce.dom.ScriptLoader(),
+
 			backCompatibilityMap = {
 				'scayt_context_commands'		: 'scayt_contextCommands',
 				'scayt_slang'					: 'scayt_sLang',
@@ -58,8 +62,6 @@
 			baseUrl = baseUrl.search(/^\/\//) === 0 ? protocol + baseUrl : baseUrl;
 
 			if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.TINYMCE !== 'function') {
-				var scriptLoader = new tinymce.dom.ScriptLoader();
-
 				// add onLoad callbacks for editors while SCAYT is loading
 				loadingHelper[editor.id] = callback;
 				loadingHelper.loadOrder.push(editor.id);
