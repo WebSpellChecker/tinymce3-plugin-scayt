@@ -602,7 +602,9 @@
 
 							// Add single commands
 							editor.addCommand('scayt_add_word', function() {
-								scaytInstance.addWordToUserDictionary();
+								setTimeout(function() {
+									scaytInstance.addWordToUserDictionary();
+								}, 0);
 							});
 
 							editor.addCommand('scayt_ignore_word', function() {
