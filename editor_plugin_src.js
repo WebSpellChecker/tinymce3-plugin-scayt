@@ -104,7 +104,8 @@
 					localization		: _editor.getParam('language') || 'en',
 					customer_id			: _editor.getParam('scayt_customerId'),
 					data_attribute_name : _editor.plugins.scayt.options.dataAttributeName,
-					misspelled_word_class : _editor.plugins.scayt.options.misspelledWordClass
+					misspelled_word_class : _editor.plugins.scayt.options.misspelledWordClass,
+					ignoreElementsRegex : _editor.getParam('scayt_elementsToIgnore')
 				};
 
 				if(_editor.getParam('scayt_serviceProtocol')) {
@@ -258,6 +259,10 @@
 				scayt_servicePath: {
 					type: 'string',
 					'default': null
+				},
+				scayt_elementsToIgnore: {
+					type: 'string',
+					'default': 'style'
 				}
 			},
 			init: function(editor) {
@@ -312,9 +317,21 @@
 								definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
 							}
 						}
+
+						// process 'scayt_elementsToIgnore' option
+						if(optionName === 'scayt_elementsToIgnore') {
+							if(editor.getParam(optionName)) {
+								definitions[optionName]['value'] = editor.getParam(optionName).replace(/ /g, '');
+								definitions[optionName]['value'] = settings[optionName] = new RegExp('^(' + definitions[optionName]['value'].replace(/,/g, '|') + '|' + definitions[optionName]['default'] + ')$', 'i');
+							} else {
+								definitions[optionName]['value'] = settings[optionName] = new RegExp('^(' + definitions[optionName]['default'] + ')$', 'i');
+							}
+						}
 					} else {
 						if(optionName === 'scayt_uiTabs') {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
+						} else if(optionName === 'scayt_elementsToIgnore') {
+							definitions[optionName]['value'] = settings[optionName] = new RegExp('^(' + definitions[optionName]['default'] + ')$', 'i');
 						} else {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
 						}
