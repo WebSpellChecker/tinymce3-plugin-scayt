@@ -259,10 +259,6 @@
 				scayt_servicePath: {
 					type: 'string',
 					'default': null
-				},
-				scayt_elementsToIgnore: {
-					type: 'string',
-					'default': 'style'
 				}
 			},
 			init: function(editor) {
@@ -317,21 +313,9 @@
 								definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
 							}
 						}
-
-						// process 'scayt_elementsToIgnore' option
-						if(optionName === 'scayt_elementsToIgnore') {
-							if(editor.getParam(optionName)) {
-								definitions[optionName]['value'] = editor.getParam(optionName).replace(/ /g, '');
-								definitions[optionName]['value'] = settings[optionName] = new RegExp('^(' + definitions[optionName]['value'].replace(/,/g, '|') + '|' + definitions[optionName]['default'] + ')$', 'i');
-							} else {
-								definitions[optionName]['value'] = settings[optionName] = new RegExp('^(' + definitions[optionName]['default'] + ')$', 'i');
-							}
-						}
 					} else {
 						if(optionName === 'scayt_uiTabs') {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
-						} else if(optionName === 'scayt_elementsToIgnore') {
-							definitions[optionName]['value'] = settings[optionName] = new RegExp('^(' + definitions[optionName]['default'] + ')$', 'i');
 						} else {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
 						}
