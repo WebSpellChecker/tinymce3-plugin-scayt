@@ -104,7 +104,8 @@
 					localization		: _editor.getParam('language') || 'en',
 					customer_id			: _editor.getParam('scayt_customerId'),
 					data_attribute_name : _editor.plugins.scayt.options.dataAttributeName,
-					misspelled_word_class : _editor.plugins.scayt.options.misspelledWordClass
+					misspelled_word_class : _editor.plugins.scayt.options.misspelledWordClass,
+					ignoreElementsRegex : _editor.getParam('scayt_elementsToIgnore')
 				};
 
 				if(_editor.getParam('scayt_serviceProtocol')) {
