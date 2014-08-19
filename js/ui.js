@@ -343,8 +343,11 @@ function initSCAYTOptionsDialog(editor) {
 
 	get.byId('about_logo').src = scayt_control.getLogo();
 
-	// set correct SCAYT version
-	get.byId('about_version_block').innerHTML = scayt_control.getVersion(editor);
+	// set correct SCAYT version if API of SCAYT app does include 'getVersion' (backwards compatibility)
+	// @TODO: remove this check later
+	if(scayt_control.getVersion) {
+		get.byId('about_version_block').innerHTML = scayt_control.getVersion(editor);
+	}
 };
 
 window.dic_create = function(el, dic_name , dic_buttons) {
