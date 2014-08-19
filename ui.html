@@ -28,17 +28,17 @@
                 cursor: pointer;
             }
             .tabs li.PopupTab{
-                display:none; 
+                display:none;
             }
             .DarkBackground  {
-                background-color: #fff;	
+                background-color: #fff;
             }
             .buttons-layer{
                 position:absolute;
                 bottom: 2px;
                 left: 50px;
                 width: 200px;
-                
+
             }
             .tab_container{
                 display:none;
@@ -77,7 +77,7 @@
             {
                  padding:10px;
             }
-			
+
 			.dic_buttons input{
 				background: url("img/buttons.png") repeat scroll 0 -52px transparent !important;
 				width: 114px;
@@ -85,7 +85,7 @@
 			.panel_wrapper div.current{
 				height: 200px;
 			}
-			
+
 			#close{
 				background: url("img/buttons.png") repeat scroll 0 0 transparent;
 				float: right;
@@ -98,11 +98,11 @@
 				padding: 0 0 2px;
 				width: 114px;
 			}
-			
+
 			li{
-				list-style-type: none; 
+				list-style-type: none;
 			}
-			
+
 			input[type=checkbox]{
 				border: none;
 			}
@@ -125,19 +125,19 @@
 			<div id="options_panel" class="panel">
 	            <ul id="scayt_options">
 
-	           </ul> 
+	           </ul>
 			</div>
 			<div id="langs_panel" class="panel">
 	            <div class="lcol" id="lcolid">
-	                
+
 	            </div>
 	            <div class="rcol" id="rcolid">
-	                
+
 	            </div>
 			</div>
 			<div id="dictionary_panel" class="panel">
 	            <div id="dic_message"></div>
-	            <div id="dic_tab" class="dictionary" > 
+	            <div id="dic_tab" class="dictionary" >
 	                <div style="padding-left:10px;">
 	                    <label id="dname" for="dname">{#scayt.dic_dictionary_name}</label>
 	                    <input type="text" size="14" maxlength="15" value="" id="dic_name" name="dic_name"/>
@@ -146,18 +146,18 @@
 	                    <input id="dic_create" class="button" type="submit" value = "{#scayt.dic_create}" title = "{#scayt.dic_create}"/>
 	                    <input id="dic_delete" class="button" type="submit" value = "{#scayt.dic_remove}" title = "{#scayt.dic_remove}"/>
 	                    <input id="dic_rename" class="button" type="submit" value = "{#scayt.dic_rename}" title = "{#scayt.dic_rename}"/>
-	                    <input id="dic_restore" class="button" type="submit" value = "{#scayt.dic_restore}" title = "{#scayt.dic_restore}"/> 
+	                    <input id="dic_restore" class="button" type="submit" value = "{#scayt.dic_restore}" title = "{#scayt.dic_restore}"/>
 	                </div>
 	                <div style = "clear:both"></div>
 	                <div id="dic_info">{#scayt.dic_about_info}</div>
-	               
+
 	            </div>
 			</div>
 			<div id="about_panel" class="panel">
 				<div id="scayt_about">
 					<p><img id = "about_logo" title = "Logo" alt = "Logo" src="" /></p>
-					<p>  {#scayt.about_version}  <span id = "about_version_block">{#scayt.about_version_num}<span>
-					<br> {#scayt.about_throwt_copy} </p>					
+					<p>  {#scayt.about_version}  <span id = "about_version_block">{#scayt.about_version_num}</span>
+					<br> {#scayt.about_throwt_copy} </p>
 				</div>
 			</div>
 		</div>
