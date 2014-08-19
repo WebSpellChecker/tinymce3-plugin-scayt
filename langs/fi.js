@@ -5,7 +5,7 @@
 	desc:'Oikolue kirjoitettaessa',
 
 	cm_more_suggestions: 'Lisää ehdotuksia',
-	cm_add_word:'Lisää sana',  
+	cm_add_word:'Lisää sana',
 	cm_ignore_word:'Ohita',
 	cm_ignore_all: 'Ohita kaikki',
 	cm_about: 'Tietoja oikoluvusta kirjoitetaessa SCAYT',
@@ -15,7 +15,7 @@
 	tb_menu_dictionaries: 'Sanakirjat',
 	tb_menu_about: 'Tietoja oikoluvusta kirjoitetaessa',
 
-	tb_button_title_enable: 'Ota käyttöön oikoluku kirjoitettaessa', 
+	tb_button_title_enable: 'Ota käyttöön oikoluku kirjoitettaessa',
 	tb_button_title_disable: 'Poista käytöstä oikoluku kirjoitetaessa',
 
 	tab_options : 'Asetukset',
@@ -26,14 +26,14 @@
 	disabled_alert:"SpellCheckAsYouType (SCAYT) is disabled. Enable to proceed.",
 
 	title_empty: '',
-	
+
 	label_allCaps: "Ohita sanat, jotka on kirjoitettu kokonaan isoilla kirjaimilla",
 	label_ignoreDomainNames: "Ohita verkkotunnukset",
 	label_mixedCase: "Ohita sanat, joissa on sekoitettu isoja ja pieniä kirjaimia",
 	label_mixedWithDigits: "Ohita sanat, joissa on numeroita",
 
 	about_version: "Version",
-	about_version_num: "3.0.0",
+	about_version_num: "3.0.0",	// @TODO remove this line later. It was left here due to backwards compatibility reasons (support of old tiny app API)
 	about_throwt_copy: "&copy; <a style='text-decoration: underline;cursor:pointer;color:#00f' href='http://www.webspellchecker.net/' target='_blank'>1999-2014 SpellChecker.net, Inc.</a><br />All Rights Reserved.",
 	about_help: "SCAYT help",
 

@@ -4,7 +4,7 @@ tinyMCE.addI18n('fr.scayt',{
 	desc:'Vérification de l\'Orthographe en Cours de Frappe (SCAYT)',
 
 	cm_more_suggestions: 'Plus de suggestions',
-	cm_add_word:'Ajouter le mot',  
+	cm_add_word:'Ajouter le mot',
 	cm_ignore_word:'Ignorer',
 	cm_ignore_all: 'Ignorer Tout',
 	cm_about: 'À propos de SCAYT',
@@ -14,7 +14,7 @@ tinyMCE.addI18n('fr.scayt',{
 	tb_menu_dictionaries: 'Dictionnaires',
 	tb_menu_about: 'À propos de SCAYT',
 
-	tb_button_title_enable: 'Activer SCAYT', 
+	tb_button_title_enable: 'Activer SCAYT',
 	tb_button_title_disable: 'Désactiver SCAYT',
 
 	tab_options : 'Options',
@@ -25,14 +25,14 @@ tinyMCE.addI18n('fr.scayt',{
 	disabled_alert:"SpellCheckAsYouType (SCAYT) is disabled. Enable to proceed.",
 
 	title_empty: '',
-	
+
 	label_allCaps: "Ignorer les mots entierement en majuscules",
 	label_ignoreDomainNames: "Ignorer les noms de domaines",
 	label_mixedCase: "Ignorer les mots à casse multiple",
 	label_mixedWithDigits: "Ignorer les mots contenant des chiffres",
 
 	about_version: "Version",
-	about_version_num: "3.0.0",
+	about_version_num: "3.0.0",	// @TODO remove this line later. It was left here due to backwards compatibility reasons (support of old tiny app API)
 	about_throwt_copy: "&copy; <a style='text-decoration: underline;cursor:pointer;color:#00f' href='http://www.webspellchecker.net/' target='_blank'>1999-2014 SpellChecker.net, Inc.</a><br />All Rights Reserved.",
 	about_help: "SCAYT help",
 
