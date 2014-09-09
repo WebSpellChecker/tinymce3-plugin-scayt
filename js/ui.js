@@ -348,6 +348,8 @@ function initSCAYTOptionsDialog(editor) {
 	if(scayt_control.getVersion) {
 		get.byId('about_version_block').innerHTML = scayt_control.getVersion(editor);
 	}
+
+	get.byId('copyrights_block').innerHTML = scayt_control.getLocal('about_throw_copy');
 };
 
 window.dic_create = function(el, dic_name , dic_buttons) {
