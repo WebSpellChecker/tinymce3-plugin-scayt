@@ -847,7 +847,7 @@
 			ed.onPreInit.add(function(ed) {
 				self.undoManager = ed.undoManager;
 
-				self.undoManager.onBeforeAdd.add(function(undoman, level) {
+				self.undoManager && self.undoManager.onBeforeAdd && self.undoManager.onBeforeAdd.add(function(undoman, level) {
 					var scaytInstance = _SCAYT.getScayt(editor);
 
 					if(scaytInstance && level && level.content) {
