@@ -221,6 +221,10 @@
 					type: 'string',
 					'default': 'en_US'
 				},
+				scayt_customerId: {
+					type: 'string',
+					'default': '1:wiN6M-YQYOz2-PTPoa2-3yaA92-PmWom-3CEx53-jHqwR3-NYK6b-XR5Uh1-M7YAp4'
+				},
 				scayt_autoStartup: {
 					type: 'boolean',
 					'default': false
@@ -276,6 +280,19 @@
 			getValue: function(optionName) {
 				return this._definitions[optionName].value;
 			},
+			getLocationInfo: function(path) {
+
+				// path: 'file:///D:/Dev/WSC/SCAYTv3/apps/ckscayt/' or 'https://www.google.com.ua'
+				var a = document.createElement('a');
+				a.href = path;
+
+				return {
+					protocol: a.protocol.replace(/:/, ''),
+					host: a.host.split(':')[0],
+					port: a.port == "0" ? "80" : a.port, // Safari 5 always return '0' when port implicitly equals '80'
+					pathname: a.pathname.replace(/^\//, '')
+				};
+			},
 			setValue: function(optionName, newValue) {
 				var value = newValue || '',
 					settings = editor.settings;
@@ -285,11 +302,41 @@
 			_parseOptions: function(editor) {
 				var settings = editor.settings,
 					definitions = this._definitions,
+					getLocationInfo = this.getLocationInfo,
 					_SCAYT = tinymce.plugins.SCAYT,
 					patt = /\s?[\|]+\s?/gi;
 
 				// preprocess settings for backward compatibility
 				_SCAYT.replaceOldOptionsNames(settings);
+
+				var checkCustomerId = function( optionName ) {
+
+					if ( optionName === 'scayt_customerId') {
+						definitions[optionName]['value'] = settings[optionName] = (function( customerId, url ) {
+
+							url = getLocationInfo( url );
+							var defUrl = getLocationInfo( definitions['scayt_srcUrl']['default'] );
+
+							var cusId = customerId && ( typeof customerId  === definitions[optionName]['type'] ) && ( customerId.length >= 50 );
+							defUrl = ( url.host === defUrl.host ) && ( url.pathname === defUrl.pathname );
+
+							if ( cusId && !defUrl) {
+								return customerId
+							}
+
+							if ( !defUrl ) {
+								return customerId
+							}
+
+							if ( !(cusId && defUrl) ) {
+								return definitions[optionName]['default'];
+							}
+
+							return customerId
+							
+						})( editor.getParam( optionName ),  editor.getParam( 'scayt_srcUrl' ) );
+					}
+				};
 
 				for(var optionName in definitions) {
 					if(definitions.hasOwnProperty(optionName) && typeof editor.getParam(optionName) === definitions[optionName].type) {
@@ -322,9 +369,12 @@
 								definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
 							}
 						}
+						checkCustomerId.call( this, optionName );
 					} else {
 						if(optionName === 'scayt_uiTabs') {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'].split(',');
+						} else if(optionName === 'scayt_customerId') {
+							checkCustomerId.call( this, optionName );
 						} else {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
 						}
