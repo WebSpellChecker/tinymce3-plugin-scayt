@@ -342,6 +342,14 @@ function initSCAYTOptionsDialog(editor) {
 	});
 
 	get.byId('about_logo').src = scayt_control.getLogo();
+
+	// set correct SCAYT version if API of SCAYT app does include 'getVersion' (backwards compatibility)
+	// @TODO: remove this check later
+	if(scayt_control.getVersion) {
+		get.byId('about_version_block').innerHTML = scayt_control.getVersion(editor);
+	}
+
+	get.byId('copyrights_block').innerHTML = scayt_control.getLocal('about_throw_copy');
 };
 
 window.dic_create = function(el, dic_name , dic_buttons) {
