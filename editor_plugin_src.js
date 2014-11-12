@@ -105,7 +105,8 @@
 					customer_id			: _editor.getParam('scayt_customerId'),
 					data_attribute_name : _editor.plugins.scayt.options.dataAttributeName,
 					misspelled_word_class : _editor.plugins.scayt.options.misspelledWordClass,
-					ignoreElementsRegex : _editor.getParam('scayt_elementsToIgnore')
+					ignoreElementsRegex : _editor.getParam('scayt_elementsToIgnore'),
+					minWordLength 		: _editor.getParam('scayt_minWordLength')
 				};
 
 				if(_editor.getParam('scayt_serviceProtocol')) {
@@ -233,6 +234,10 @@
 					type: 'number',
 					'default': 5
 				},
+				scayt_minWordLength: {
+					type: 'number',
+					'default': 4
+				},
 				scayt_moreSuggestions: {
 					type: 'string',
 					'default': 'on'
@@ -333,7 +338,7 @@
 							}
 
 							return customerId
-							
+
 						})( editor.getParam( optionName ),  editor.getParam( 'scayt_srcUrl' ) );
 					}
 				};
@@ -345,6 +350,11 @@
 
 						// process 'scayt_maxSuggestions' option
 						if(optionName === 'scayt_maxSuggestions' && editor.getParam(optionName) < 0) {
+							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
+						}
+
+						// process 'scayt_minWordLength' option
+						if(optionName === 'scayt_minWordLength' && editor.getParam(optionName) < 1) {
 							definitions[optionName]['value'] = settings[optionName] = definitions[optionName]['default'];
 						}
 
