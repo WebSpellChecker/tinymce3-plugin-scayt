@@ -864,7 +864,8 @@
 							}
 						}
 
-						if(cmd === 'Cut') {
+						if(	cmd === 'Cut' || cmd === 'Bold' || cmd === 'Underline' ||
+							cmd === 'Italic' || cmd === 'subscript' || cmd === 'superscript' || cmd === 'Strikethrough' ) {
 							scaytInstance.removeMarkupInSelectionNode();
 
 							setTimeout(function() {
