@@ -836,7 +836,8 @@
 			}
 
 			ed.onBeforeExecCommand.add(function(editor, cmd, ui, val) {
-				var scaytInstance;
+				var scaytInstance,
+					removeMarkupInsideSelection = true;
 
 				if((cmd in scaytPlugin.options.disablingCommandExec) && scaytPlugin.options.disablingCommandExec[cmd]) {
 
@@ -866,7 +867,10 @@
 
 						if(	cmd === 'Cut' || cmd === 'Bold' || cmd === 'Underline' ||
 							cmd === 'Italic' || cmd === 'subscript' || cmd === 'superscript' || cmd === 'Strikethrough' ) {
-							scaytInstance.removeMarkupInSelectionNode();
+							if(cmd === 'Cut') {
+								removeMarkupInsideSelection = false;
+							}
+							scaytInstance.removeMarkupInSelectionNode({removeInside: removeMarkupInsideSelection});
 
 							setTimeout(function() {
 								scaytInstance.fire('startSpellCheck');
