@@ -837,6 +837,7 @@
 
 			ed.onBeforeExecCommand.add(function(editor, cmd, ui, val) {
 				var scaytInstance,
+					forceBookmark = false,
 					removeMarkupInsideSelection = true;
 
 				if((cmd in scaytPlugin.options.disablingCommandExec) && scaytPlugin.options.disablingCommandExec[cmd]) {
@@ -869,8 +870,14 @@
 							cmd === 'Italic' || cmd === 'subscript' || cmd === 'superscript' || cmd === 'Strikethrough' ) {
 							if(cmd === 'Cut') {
 								removeMarkupInsideSelection = false;
+								// We need to force bookmark before we remove our markup.
+								// Otherwise we will get issues with cutting text via context menu.
+								forceBookmark = true;
 							}
-							scaytInstance.removeMarkupInSelectionNode({removeInside: removeMarkupInsideSelection});
+							scaytInstance.removeMarkupInSelectionNode({
+								removeInside: removeMarkupInsideSelection,
+								forceBookmark: forceBookmark
+							});
 
 							setTimeout(function() {
 								scaytInstance.fire('startSpellCheck');
