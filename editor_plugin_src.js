@@ -55,7 +55,7 @@
 		};
 
 		var loadScaytLibrary = function(editor, callback) {
-			
+
 			var protocol = document.location.protocol;
 			var baseUrl = editor.getParam('scayt_srcUrl');
 			var date = new Date();
@@ -68,10 +68,10 @@
 
 			if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.TINYMCE !== 'function') {
 				// add onLoad callbacks for editors while SCAYT is loading
-				
+
 				loadingHelper[editor.id] = callback;
 				loadingHelper.loadOrder.push(editor.id);
-				
+
 				scriptLoader.add(baseUrlWithTimestamp);
 				scriptLoader.loadQueue(function(success) {
 					var editorName;
@@ -836,7 +836,9 @@
 			}
 
 			ed.onBeforeExecCommand.add(function(editor, cmd, ui, val) {
-				var scaytInstance;
+				var scaytInstance,
+					forceBookmark = false,
+					removeMarkupInsideSelection = true;
 
 				if((cmd in scaytPlugin.options.disablingCommandExec) && scaytPlugin.options.disablingCommandExec[cmd]) {
 
@@ -862,6 +864,24 @@
 									scaytInstance.fire("startSpellCheck");
 								}, 0);
 							}
+						}
+
+						if(	cmd === 'Cut' || cmd === 'Bold' || cmd === 'Underline' ||
+							cmd === 'Italic' || cmd === 'subscript' || cmd === 'superscript' || cmd === 'Strikethrough' ) {
+							if(cmd === 'Cut') {
+								removeMarkupInsideSelection = false;
+								// We need to force bookmark before we remove our markup.
+								// Otherwise we will get issues with cutting text via context menu.
+								forceBookmark = true;
+							}
+							scaytInstance.removeMarkupInSelectionNode({
+								removeInside: removeMarkupInsideSelection,
+								forceBookmark: forceBookmark
+							});
+
+							setTimeout(function() {
+								scaytInstance.fire('startSpellCheck');
+							}, 0);
 						}
 
 						if(cmd === 'mceRepaint' || cmd === 'Undo' || cmd === 'Redo') {
