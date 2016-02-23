@@ -881,12 +881,12 @@
 							if(lastExecutedCommand && lastExecutedCommand === 'mceEmotion') {
 								setTimeout(function() {
 									scaytInstance.removeMarkupInSelectionNode();
-									scaytInstance.fire("startSpellCheck");
+									scaytInstance.reloadMarkup();
 								}, 0);
 							} else {
 								scaytInstance.removeMarkupInSelectionNode();
 								setTimeout(function() {
-									scaytInstance.fire("startSpellCheck");
+									scaytInstance.reloadMarkup();
 								}, 0);
 							}
 						}
@@ -905,12 +905,12 @@
 							});
 
 							setTimeout(function() {
-								scaytInstance.fire('startSpellCheck');
+								scaytInstance.reloadMarkup();
 							}, 0);
 						}
 
 						if(cmd === 'mceRepaint' || cmd === 'Undo' || cmd === 'Redo') {
-							scaytInstance.fire('startSpellCheck');
+							scaytInstance.reloadMarkup();
 						}
 					}
 				}
@@ -973,7 +973,7 @@
 				setTimeout(function() {
 					if(scaytInstance) {
 						scaytInstance.removeMarkupInSelectionNode();
-						scaytInstance.fire('startSpellCheck');
+						scaytInstance.reloadMarkup();
 					}
 				},0);
 
@@ -985,7 +985,7 @@
 				if(scaytInstance) {
 					setTimeout(function() {
 						scaytInstance.removeMarkupInSelectionNode();
-						scaytInstance.fire('startSpellCheck');
+						scaytInstance.reloadMarkup();
 					}, 0);
 				}
 			});
