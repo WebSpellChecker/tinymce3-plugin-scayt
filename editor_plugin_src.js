@@ -193,12 +193,14 @@
 		};
 		// backward compatibility if version of scayt app < 4.8.3
 		var reloadMarkup = function (scaytInstance){
-			if (scaytInstance.reloadMarkup) {
-				scaytInstance.reloadMarkup();
-			} else {
-				scaytInstance.fire('startSpellCheck');
-				console.warn('Note: you are using new version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net to version 4.8.3 Contact us: '+
-					'https://www.webspellchecker.net/contact-us.html');
+			if(scaytInstance){
+				if (scaytInstance.reloadMarkup) {
+					scaytInstance.reloadMarkup();
+				} else {
+					scaytInstance.fire('startSpellCheck');
+					console.warn('Note: you are using new version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net to version 4.8.3 Contact us: '+
+						'https://www.webspellchecker.net/contact-us.html');
+				}
 			}
 		};
 		return {
