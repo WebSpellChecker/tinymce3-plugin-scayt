@@ -115,6 +115,9 @@
 					minWordLength 		: _editor.getParam('scayt_minWordLength')
 				};
 
+				if(tinymce.activeEditor === _editor){
+					//_scaytInstanceOptions['focused'] = true;
+				}
 				if(_editor.getParam('scayt_serviceProtocol')) {
 					_scaytInstanceOptions['service_protocol'] = _editor.getParam('scayt_serviceProtocol');
 				}
