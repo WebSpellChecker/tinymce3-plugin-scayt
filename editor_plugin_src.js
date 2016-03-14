@@ -201,8 +201,8 @@
 					scaytInstance.reloadMarkup();
 				} else {
 					scaytInstance.fire('startSpellCheck');
-					console.warn('Note: you are using new version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net to version 4.8.3 Contact us: '+
-						'https://www.webspellchecker.net/contact-us.html');
+					console.warn('Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to version v4.8.3.' +
+						'Contact us by e-mail at support@webspellchecker.net.');
 				}
 			}
 		};
