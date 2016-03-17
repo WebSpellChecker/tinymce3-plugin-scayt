@@ -23,6 +23,7 @@
 			loadingHelper = {
 				loadOrder: []
 			},
+			warningCounter = 0,
 
 			// look at multiload app realization
 			scriptLoader = new tinymce.dom.ScriptLoader(),
@@ -200,9 +201,12 @@
 				if (scaytInstance.reloadMarkup) {
 					scaytInstance.reloadMarkup();
 				} else {
+					if(warningCounter < 5){
+						console.warn('Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to version v4.8.3.' +
+							'Contact us by e-mail at support@webspellchecker.net.');
+						warningCounter += 1;
+					}
 					scaytInstance.fire('startSpellCheck');
-					console.warn('Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to version v4.8.3.' +
-						'Contact us by e-mail at support@webspellchecker.net.');
 				}
 			}
 		};
